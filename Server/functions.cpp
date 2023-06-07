@@ -22,28 +22,24 @@ QByteArray parse(QByteArray message)
         if (array_parts.isEmpty())
             return "Введие корректный массив\r\n\n";
 
+        QList<int> array = {};
 
+        for (const auto &index : array_parts){
+            array.append(index.toInt());
+        }
 
-        return QByteArray(sort(array_parts, step).toUtf8() + "\r\n\n");
+        heapSort(array, step);
+
+        QString result = "";
+
+        for (int index = 0; index < array.size(); index++) {
+            result = result + QByteArray::number(array[index]) + " ";
+        }
+
+        return QByteArray(result.toUtf8() + "\r\n\n");
     }
 
     return "Я не знаю команду "  + parts[0] + "\r\n\n";
-}
-
-QString sort(QList<QByteArray>& array_parts, int& step) {
-    QList<int> array = {};
-
-    for (const auto &index : array_parts){
-        array.append(index.toInt());
-    }
-
-    heapSort(array, step);
-
-    QString result = "";
-
-    for (int index = 0; index < array.size(); index++) {
-        result = result + QByteArray::number(array[index]) + " ";
-    }
 }
 
 void heapify(QVector<int>& array, int array_size, int index) {
