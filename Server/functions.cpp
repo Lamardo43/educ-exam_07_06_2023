@@ -4,7 +4,7 @@ int count_svaps = 0;
 
 QByteArray parse(QByteArray message)
 {
-    QList parts = message.split('&');
+   QVector<QByteArray> parts = message.split('&').toVector();
 
     if (parts.size() != 3)
         return "Неверное количество аргументов\r\n\n";
@@ -17,12 +17,12 @@ QByteArray parse(QByteArray message)
         if (!is_success || step <= 0)
             return "Неверное значение шага\r\n\n";
 
-        QList array_parts = parts[2].split(' ');
+        QVector<QByteArray> array_parts = parts[2].split(' ').toVector();
 
         if (array_parts.isEmpty())
             return "Введие корректный массив\r\n\n";
 
-        QList<int> array = {};
+        QVector<int> array = {};
 
         for (const auto &index : array_parts){
             array.append(index.toInt());
@@ -39,7 +39,7 @@ QByteArray parse(QByteArray message)
         return QByteArray(result.toUtf8() + "\r\n\n");
     }
 
-    return "Я не знаю команду "  + parts[0] + "\r\n\n";
+    return "Я не знаю эту команду\r\n\n";
 }
 
 void heapify(QVector<int>& array, int array_size, int index) {
